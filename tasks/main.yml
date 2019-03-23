@@ -1,0 +1,45 @@
+---
+
+- name: ensure pod conf dir exists
+  file:
+    path: "{{awx_pod_yaml_dir}}"
+    state: directory
+
+- name: do preparations for running pod
+  block:
+
+  - name: "set AWX configuration file: {{awx_pod_yaml_path}}"
+    template:
+      src: awx.yml.j2
+      dest: "{{awx_pod_yaml_path}}"
+      owner: root
+      group: root
+      mode: "0600"
+
+  - name: ensure pod exported volume directories exists
+    file:
+      path: "{{item}}"
+      state: directory
+      mode: "0700"
+      owner: root
+    with_items:
+      - "{{awx_data_volume_host_path}}"
+      - "{{awx_db_volume_host_path}}"
+  when: container_state == "running"
+
+- name: import role podman_container_systemd to handle containers
+  vars:
+    container_name: "{{awx_pod_name}}"
+    container_state: running
+    container_pod_yaml: "{{awx_pod_yaml_path}}"
+    container_image_list: "{{awx_container_image_list}}"
+    container_firewall_ports:
+      - 8052/tcp
+  import_role:
+    name: podman_container_systemd
+
+- name: "remove AWX configuration file: {{awx_pod_yaml_path}}"
+  file:
+    path: "{{awx_pod_yaml_path}}"
+    state: absent
+  when: container_state == "absent"

@@ -1,0 +1,21 @@
+---
+
+awx_admin_user: admin
+awx_admin_password: password
+
+awx_pod_name: awx
+awx_pod_label: awx
+
+awx_data_volume_host_path: /tmp/awx_data
+awx_db_volume_host_path: /tmp/awx_db
+
+#
+# anything below is pod internal info, never seen outside.
+#
+awx_postgres_user: awx
+awx_postgres_password: awxpass
+
+awx_rabbitmq_user:  guest
+awx_rabbitmq_password: awxrabbit
+awx_rabbitmq_secret_key: awxsecret
+awx_rabbitmq_erlang_cookie: cookiemonster
