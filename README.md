@@ -27,18 +27,20 @@ koji downloads](https://koji.fedoraproject.org/koji/packageinfo?packageID=26289)
 Example Playbook
 ----------------
 
-  - name: run AWX on host
-    hosts: all
-    tasks:
-      - name: import awx_pod role to install it all
-        vars:
-          awx_admin_user: admin
-          awx_admin_password: foobar
-          awx_data_volume_host_path: /tmp/awx_data
-          awx_db_volume_host_path: /tmp/awx_db
-          #container_state: absent or running
-        import_role:
-          name: awx_pod
+```
+- name: run AWX on host
+  hosts: all
+  tasks:
+    - name: import awx_pod role to install it all
+      vars:
+        awx_admin_user: admin
+        awx_admin_password: foobar
+        awx_data_volume_host_path: /tmp/awx_data
+        awx_db_volume_host_path: /tmp/awx_db
+        #container_state: absent or running
+      import_role:
+        name: awx_pod
+```
 
 License
 -------
