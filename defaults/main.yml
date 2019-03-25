@@ -9,6 +9,8 @@ awx_pod_label: awx
 awx_data_volume_host_path: /tmp/awx_data
 awx_db_volume_host_path: /tmp/awx_db
 
+awx_host_port: 8052/tcp
+
 #
 # anything below is pod internal info, never seen outside.
 #
