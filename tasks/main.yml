@@ -16,15 +16,20 @@
       group: root
       mode: "0600"
 
-  - name: ensure pod exported volume directories exists
+  - name: ensure postgres exported volume directory exists
     file:
-      path: "{{item}}"
+      path: "{{awx_db_volume_host_path}}"
       state: directory
       mode: "0700"
       owner: root
-    with_items:
-      - "{{awx_data_volume_host_path}}"
-      - "{{awx_db_volume_host_path}}"
+
+  - name: ensure awx exported volume directory exists
+    file:
+      path: "{{awx_data_volume_host_path}}"
+      state: directory
+      mode: "0700"
+      owner: 1000
+
   when: container_state == "running"
 
 - name: import role podman_container_systemd to handle containers
