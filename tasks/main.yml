@@ -2,30 +2,30 @@
 
 - name: ensure pod conf dir exists
   file:
-    path: "{{awx_pod_yaml_dir}}"
+    path: "{{ awx_pod_yaml_dir }}"
     state: directory
 
 - name: do preparations for running pod
   block:
 
-  - name: "set AWX configuration file: {{awx_pod_yaml_path}}"
+  - name: "set AWX configuration file: {{ awx_pod_yaml_path }}"
     template:
       src: awx.yml.j2
-      dest: "{{awx_pod_yaml_path}}"
+      dest: "{{ awx_pod_yaml_path }}"
       owner: root
       group: root
       mode: "0600"
 
   - name: ensure postgres exported volume directory exists
     file:
-      path: "{{awx_db_volume_host_path}}"
+      path: "{{ awx_db_volume_host_path }}"
       state: directory
       mode: "0700"
       owner: root
 
   - name: ensure awx exported volume directory exists
     file:
-      path: "{{awx_data_volume_host_path}}"
+      path: "{{ awx_data_volume_host_path }}"
       state: directory
       mode: "0700"
       owner: 1000
@@ -34,17 +34,17 @@
 
 - name: import role podman_container_systemd to handle containers
   vars:
-    container_name: "{{awx_pod_name}}"
+    container_name: "{{ awx_pod_name }}"
     container_state: running
-    container_pod_yaml: "{{awx_pod_yaml_path}}"
-    container_image_list: "{{awx_container_image_list}}"
+    container_pod_yaml: "{{ awx_pod_yaml_path }}"
+    container_image_list: "{{ awx_container_image_list }}"
     container_firewall_ports:
       - "{{ awx_host_port }}"
   import_role:
     name: podman_container_systemd
 
-- name: "remove AWX configuration file: {{awx_pod_yaml_path}}"
+- name: "remove AWX configuration file: {{ awx_pod_yaml_path }}"
   file:
-    path: "{{awx_pod_yaml_path}}"
+    path: "{{ awx_pod_yaml_path }}"
     state: absent
   when: container_state == "absent"

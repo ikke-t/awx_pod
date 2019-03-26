@@ -2,8 +2,8 @@ apiVersion: v1
 kind: Pod
 metadata:
   labels:
-    app: {{awx_pod_label}}
-  name: {{awx_pod_name}}
+    app: {{ awx_pod_label }}
+  name: {{ awx_pod_name }}
 spec:
   #
   # define exported volumes for permanent data
@@ -11,11 +11,11 @@ spec:
   volumes:
   - name: awx-data-volume
     hostPath:
-      path: {{awx_data_volume_host_path}}
+      path: {{ awx_data_volume_host_path }}
       type: Directory
   - name: db-volume
     hostPath:
-      path: {{awx_db_volume_host_path}}
+      path: {{ awx_db_volume_host_path }}
       type: Directory
   containers:
   #
@@ -26,16 +26,16 @@ spec:
     - postgres
     env:
     - name: PATH
-      value: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/postgresql/{{awx_postgres_version}}/bin
+      value: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/postgresql/{{ awx_postgres_version }}/bin
     - name: POSTGRES_USER
-      value: {{awx_postgres_user}}
+      value: {{ awx_postgres_user }}
     - name: POSTGRES_DB
       value: awx
     - name: PGDATA
       value: /var/lib/postgresql/data/pgdata
     - name: POSTGRES_PASSWORD
-      value: {{awx_postgres_password}}
-    image: docker.io/library/postgres:{{awx_postgres_version}}
+      value: {{ awx_postgres_password }}
+    image: docker.io/library/postgres:{{ awx_postgres_version }}
     name: postgres
     volumeMounts:
     - mountPath: /var/lib/postgresql/data/pgdata:z
@@ -60,17 +60,17 @@ spec:
     - /usr/bin/launch_awx.sh
     env:
     - name: AWX_ADMIN_USER
-      value: {{awx_admin_user}}
+      value: {{ awx_admin_user }}
     - name: AWX_ADMIN_PASSWORD
-      value: {{awx_admin_password}}
+      value: {{ awx_admin_password }}
     - name: HOSTNAME
       value: awxweb
     - name: DATABASE_NAME
       value: awx
     - name: DATABASE_USER
-      value: {{awx_postgres_user}}
+      value: {{ awx_postgres_user }}
     - name: DATABASE_PASSWORD
-      value: {{awx_postgres_password}}
+      value: {{ awx_postgres_password }}
     - name: DATABASE_PORT
       value: "5432"
     - name: DATABASE_HOST
@@ -80,11 +80,11 @@ spec:
     - name: RABBITMQ_VHOST
       value: awx
     - name: RABBITMQ_USER
-      value: {{awx_rabbitmq_user}}
+      value: {{ awx_rabbitmq_user }}
     - name: RABBITMQ_PASSWORD
-      value: {{awx_rabbitmq_password}}
+      value: {{ awx_rabbitmq_password }}
     - name: SECRET_KEY
-      value: {{awx_rabbitmq_secret_key}}
+      value: {{ awx_rabbitmq_secret_key }}
     - name: RABBITMQ_PORT
       value: "5672"
     - name: MEMCACHED_HOST
@@ -112,17 +112,17 @@ spec:
     - /usr/bin/launch_awx_task.sh
     env:
     - name: AWX_ADMIN_USER
-      value: {{awx_admin_user}}
+      value: {{ awx_admin_user }}
     - name: AWX_ADMIN_PASSWORD
-      value: {{awx_admin_password}}
+      value: {{ awx_admin_password }}
     - name: HOSTNAME
       value: awx
     - name: DATABASE_NAME
       value: awx
     - name: DATABASE_USER
-      value: {{awx_postgres_user}}
+      value: {{ awx_postgres_user }}
     - name: DATABASE_PASSWORD
-      value: {{awx_postgres_password}}
+      value: {{ awx_postgres_password }}
     - name: DATABASE_PORT
       value: "5432"
     - name: DATABASE_HOST
@@ -132,11 +132,11 @@ spec:
     - name: RABBITMQ_VHOST
       value: awx
     - name: RABBITMQ_USER
-      value: {{awx_rabbitmq_user}}
+      value: {{ awx_rabbitmq_user }}
     - name: RABBITMQ_PASSWORD
-      value: {{awx_rabbitmq_password}}
+      value: {{ awx_rabbitmq_password }}
     - name: SECRET_KEY
-      value: {{awx_rabbitmq_secret_key}}
+      value: {{ awx_rabbitmq_secret_key }}
     - name: RABBITMQ_PORT
       value: "5672"
     - name: MEMCACHED_HOST
@@ -163,10 +163,10 @@ spec:
     - name: RABBITMQ_DEFAULT_VHOST
       value: awx
     - name: RABBITMQ_ERLANG_COOKIE
-      value: {{awx_rabbitmq_erlang_cookie}}
+      value: {{ awx_rabbitmq_erlang_cookie }}
     - name: RABBITMQ_DEFAULT_USER
-      value: {{awx_rabbitmq_user}}
+      value: {{ awx_rabbitmq_user }}
     - name: RABBITMQ_DEFAULT_PASS
-      value: {{awx_rabbitmq_password}}
-    image: docker.io/ansible/awx_rabbitmq:{{awx_rabbitmq_version}}
+      value: {{ awx_rabbitmq_password }}
+    image: docker.io/ansible/awx_rabbitmq:{{ awx_rabbitmq_version }}
     name: rabbitmq
