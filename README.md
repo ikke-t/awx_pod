@@ -4,6 +4,10 @@ awx_pod
 This Ansible role sets up Ansible AWX server using containers. It uses podman
 to do it.
 
+See this blog how to use it: https://redhatnordicssa.github.io/ansible-podman-containers-2
+
+![awx-pod](https://redhatnordicssa.github.io/assets/images/awx-pod.png)
+
 Requirements
 ------------
 
