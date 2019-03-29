@@ -91,7 +91,7 @@ spec:
       value: 127.0.0.1
     - name: MEMCACHED_PORT
       value: "11211"
-    image: docker.io/ansible/awx_web:latest
+    image: docker.io/ansible/awx_web:{{ awx_awxweb_version }}
     name: awxweb
     workingDir: /var/lib/awx
     volumeMounts:
@@ -143,7 +143,7 @@ spec:
       value: 127.0.0.1
     - name: MEMCACHED_PORT
       value: "11211"
-    image: docker.io/ansible/awx_task:latest
+    image: docker.io/ansible/awx_task:{{ awx_awxtask_version }}
     name: awxtask
     workingDir: /var/lib/awx
     volumeMounts:
