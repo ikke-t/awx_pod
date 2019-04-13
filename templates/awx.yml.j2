@@ -17,6 +17,18 @@ spec:
     hostPath:
       path: {{ awx_db_volume_host_path }}
       type: Directory
+  - name: secret-key
+    hostPath:
+      path: {{ awx_secret_key_path }}
+      type: File
+  - name: environment
+    hostPath:
+      path: {{ awx_environment_path }}
+      type: File
+  - name: credentials
+    hostPath:
+      path: {{ awx_credentials_path }}
+      type: File
   containers:
   #
   # postgres container
@@ -59,48 +71,24 @@ spec:
     - -c
     - /usr/bin/launch_awx.sh
     env:
-    - name: AWX_ADMIN_USER
-      value: {{ awx_admin_user }}
-    - name: AWX_ADMIN_PASSWORD
-      value: {{ awx_admin_password }}
     - name: HOSTNAME
       value: awxweb
-    - name: DATABASE_NAME
-      value: awx
-    - name: DATABASE_USER
-      value: {{ awx_postgres_user }}
-    - name: DATABASE_PASSWORD
-      value: {{ awx_postgres_password }}
-    - name: DATABASE_PORT
-      value: "5432"
-    - name: DATABASE_HOST
-      value: 127.0.0.1
-    - name: RABBITMQ_HOST
-      value: 127.0.0.1
-    - name: RABBITMQ_VHOST
-      value: awx
-    - name: RABBITMQ_USER
-      value: {{ awx_rabbitmq_user }}
-    - name: RABBITMQ_PASSWORD
-      value: {{ awx_rabbitmq_password }}
-    - name: SECRET_KEY
-      value: {{ awx_rabbitmq_secret_key }}
-    - name: RABBITMQ_PORT
-      value: "5672"
-    - name: MEMCACHED_HOST
-      value: 127.0.0.1
-    - name: MEMCACHED_PORT
-      value: "11211"
     image: docker.io/ansible/awx_web:{{ awx_awxweb_version }}
     name: awxweb
     workingDir: /var/lib/awx
     volumeMounts:
     - mountPath: /var/lib/awx/projects:z
       name: awx-data-volume
+    - mountPath: /etc/tower/SECRET_KEY
+      name: secret-key
+    - mountPath: /etc/tower/conf.d/environment.sh
+      name: environment
+    - mountPath: /etc/tower/conf.d/credentials.py
+      name: credentials
     ports:
-      - containerPort: 8052
-        hostPort: 8052
-        protocol: TCP
+    - containerPort: 8052
+      hostPort: 8052
+      protocol: TCP
   #
   # awx-task container
   #
@@ -111,44 +99,20 @@ spec:
     - -c
     - /usr/bin/launch_awx_task.sh
     env:
-    - name: AWX_ADMIN_USER
-      value: {{ awx_admin_user }}
-    - name: AWX_ADMIN_PASSWORD
-      value: {{ awx_admin_password }}
     - name: HOSTNAME
       value: awx
-    - name: DATABASE_NAME
-      value: awx
-    - name: DATABASE_USER
-      value: {{ awx_postgres_user }}
-    - name: DATABASE_PASSWORD
-      value: {{ awx_postgres_password }}
-    - name: DATABASE_PORT
-      value: "5432"
-    - name: DATABASE_HOST
-      value: 127.0.0.1
-    - name: RABBITMQ_HOST
-      value: 127.0.0.1
-    - name: RABBITMQ_VHOST
-      value: awx
-    - name: RABBITMQ_USER
-      value: {{ awx_rabbitmq_user }}
-    - name: RABBITMQ_PASSWORD
-      value: {{ awx_rabbitmq_password }}
-    - name: SECRET_KEY
-      value: {{ awx_rabbitmq_secret_key }}
-    - name: RABBITMQ_PORT
-      value: "5672"
-    - name: MEMCACHED_HOST
-      value: 127.0.0.1
-    - name: MEMCACHED_PORT
-      value: "11211"
     image: docker.io/ansible/awx_task:{{ awx_awxtask_version }}
     name: awxtask
     workingDir: /var/lib/awx
     volumeMounts:
     - mountPath: /var/lib/awx/projects:z
       name: awx-data-volume
+    - mountPath: /etc/tower/SECRET_KEY
+      name: secret-key
+    - mountPath: /etc/tower/conf.d/environment.sh
+      name: environment
+    - mountPath: /etc/tower/conf.d/credentials.py
+      name: credentials
   #
   # rabbitmq container
   #
@@ -164,9 +128,5 @@ spec:
       value: awx
     - name: RABBITMQ_ERLANG_COOKIE
       value: {{ awx_rabbitmq_erlang_cookie }}
-    - name: RABBITMQ_DEFAULT_USER
-      value: {{ awx_rabbitmq_user }}
-    - name: RABBITMQ_DEFAULT_PASS
-      value: {{ awx_rabbitmq_password }}
     image: docker.io/ansible/awx_rabbitmq:{{ awx_rabbitmq_version }}
     name: rabbitmq

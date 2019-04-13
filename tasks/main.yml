@@ -8,10 +8,34 @@
 - name: do preparations for running pod
   block:
 
-  - name: "set AWX configuration file: {{ awx_pod_yaml_path }}"
+  - name: "set AWX pod configuration file: {{ awx_pod_yaml_path }}"
     template:
       src: awx.yml.j2
       dest: "{{ awx_pod_yaml_path }}"
+      owner: root
+      group: root
+      mode: "0600"
+
+  - name: "set AWX environment file: {{ awx_environment_path }}"
+    template:
+      src: environment.sh.j2
+      dest: "{{ awx_environment_path }}"
+      owner: root
+      group: root
+      mode: "0600"
+
+  - name: "set AWX secrets file: {{ awx_credentials_path }}"
+    template:
+      src: credentials.py.j2
+      dest: "{{ awx_credentials_path }}"
+      owner: root
+      group: root
+      mode: "0700"
+
+  - name: "set rabbitmq secret key file: {{ awx_secret_key_path }}"
+    copy:
+      content: "{{ awx_rabbitmq_secret_key }}"
+      dest: "{{ awx_secret_key_path }}"
       owner: root
       group: root
       mode: "0600"

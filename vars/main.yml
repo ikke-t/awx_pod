@@ -4,11 +4,14 @@
 awx_pod_yaml_dir: /etc/containers/pods
 awx_pod_yaml_file: "{{ awx_pod_name }}.yaml"
 awx_pod_yaml_path: "{{ awx_pod_yaml_dir }}/{{ awx_pod_yaml_file }}"
+awx_secret_key_path: "{{ awx_pod_yaml_dir }}/{{ awx_pod_name }}-SECRET_KEY"
+awx_environment_path: "{{ awx_pod_yaml_dir }}/{{ awx_pod_name }}-environment.sh"
+awx_credentials_path: "{{ awx_pod_yaml_dir }}/{{ awx_pod_name }}-credentials.py"
 
 awx_pod_label: "{{ awx_pod_name }}"
 
-awx_awxweb_version: 3.0.1
-awx_awxtask_version: 3.0.1
+awx_awxweb_version: latest
+awx_awxtask_version: latest
 awx_postgres_version: 9.6
 awx_rabbitmq_version: 3.7.4
 
@@ -18,3 +21,14 @@ awx_container_image_list:
   - docker.io/ansible/awx_rabbitmq:{{ awx_rabbitmq_version }}
   - "docker.io/ansible/awx_web:{{ awx_awxweb_version }}"
   - "docker.io/ansible/awx_task:{{ awx_awxtask_version }}"
+
+
+pg_database: awx
+pg_username: "{{ awx_postgres_user }}"
+pg_password: "{{ awx_postgres_password }}"
+pg_hostname: 127.0.0.1
+pg_port: 5432
+rabbitmq_user: "{{ awx_rabbitmq_user }}"
+rabbitmq_password: "{{ awx_rabbitmq_password }}"
+memcached_hostname: 127.0.0.1
+rabbitmq_hostname:  127.0.0.1
