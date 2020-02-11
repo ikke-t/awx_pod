@@ -8,4 +8,7 @@ galaxy_info:
     - name: Fedora
       versions:
       - 30
+    - name: CentOS
+      versions:
+      - 8
   galaxy_tags: [containers, awx, tower]

@@ -17,6 +17,14 @@ spec:
     hostPath:
       path: {{ awx_db_volume_host_path }}
       type: Directory
+  - name: awx-secret
+    hostPath:
+      path: {{ awx_secret_volume_host_path }}/SECRET_FILE
+      type: File
+  - name: nginx-config
+    hostPath:
+      path: {{ awx_nginx_volume_host_path }}/nginx.conf
+      type: File
   containers:
   #
   # postgres container
@@ -97,6 +105,12 @@ spec:
     volumeMounts:
     - mountPath: /var/lib/awx/projects:z
       name: awx-data-volume
+    - mountPath: /etc/tower/SECRET_KEY:z
+      name: awx-secret
+      readOnly: true
+    - mountPath: /etc/nginx/nginx.conf:z
+      name: nginx-config
+      readOnly: true
     ports:
       - containerPort: 8052
         hostPort: 8052
@@ -149,6 +163,9 @@ spec:
     volumeMounts:
     - mountPath: /var/lib/awx/projects:z
       name: awx-data-volume
+    - mountPath: /etc/tower/SECRET_KEY:z
+      name: awx-secret
+      readOnly: true
   #
   # rabbitmq container
   #
