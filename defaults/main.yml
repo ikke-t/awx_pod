@@ -23,3 +23,4 @@ awx_rabbitmq_user:  guest
 awx_rabbitmq_password: awxrabbit
 awx_rabbitmq_secret_key: awxsecret
 awx_rabbitmq_erlang_cookie: cookiemonster
+awx_secret_key: iamverysecret

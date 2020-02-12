@@ -46,7 +46,7 @@
 
   - name: copy awx SECRET_FILE
     copy:
-      content: iamverysecret
+      content: "{{ awx_secret_key }}"
       dest: "{{ awx_secret_volume_host_path }}/SECRET_FILE"
       mode: "0600"
       owner: 1000
