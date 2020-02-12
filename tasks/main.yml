@@ -67,7 +67,7 @@
     container_pod_yaml: "{{ awx_pod_yaml_path }}"
     container_image_list: "{{ awx_container_image_list }}"
     container_firewall_ports:
-      - "{{ awx_host_port }}"
+      - "{{ awx_host_port }}/tcp"
   import_role:
     name: podman_container_systemd
 

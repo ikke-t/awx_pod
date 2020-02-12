@@ -41,7 +41,7 @@ Example Playbook
         awx_admin_password: foobar
         awx_data_volume_host_path: /tmp/awx_data
         awx_db_volume_host_path: /tmp/awx_db
-        awx_host_port: 8052/tcp
+        awx_host_port: 8052
         #container_state: absent or running
       import_role:
         name: awx_pod

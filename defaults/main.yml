@@ -11,7 +11,7 @@ awx_db_volume_host_path: /tmp/awx_db
 awx_secret_volume_host_path: /tmp/awx_secret
 awx_nginx_volume_host_path: /tmp/awx_nginx
 
-awx_host_port: 8052/tcp
+awx_host_port: 8052
 
 #
 # anything below is pod internal info, never seen outside.

@@ -113,7 +113,7 @@ spec:
       readOnly: true
     ports:
       - containerPort: 8052
-        hostPort: 8052
+        hostPort: {{ awx_host_port }}
         protocol: TCP
   #
   # awx-task container
