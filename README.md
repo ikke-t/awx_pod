@@ -23,9 +23,7 @@ Dependencies
 
 Role depends on
 [ikke_t.podman_container_systemd](https://galaxy.ansible.com/ikke_t/podman_container_systemd)
-role. Also, at the time podman just got pieces together to run this, I needed
-to use upstream version [podman-1.2.0-24.dev.git0458daf.fc31]() from [podman
-koji downloads](https://koji.fedoraproject.org/koji/packageinfo?packageID=26289)
+role.
 
 
 Example Playbook
