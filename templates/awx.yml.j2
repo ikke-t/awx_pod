@@ -44,7 +44,7 @@ spec:
     - name: POSTGRES_PASSWORD
       value: {{ awx_postgres_password }}
     image: docker.io/library/postgres:{{ awx_postgres_version }}
-    name: postgres
+    name: {{ awx_pod_name }}_postgres
     volumeMounts:
     - mountPath: /var/lib/postgresql/data/pgdata:z
       name: db-volume
@@ -56,7 +56,7 @@ spec:
     - memcached
     env:
     image: docker.io/library/memcached:alpine
-    name: memcached
+    name: {{ awx_pod_name }}_memcached
   #
   # awx-web container
   #
@@ -100,7 +100,7 @@ spec:
     - name: MEMCACHED_PORT
       value: "11211"
     image: docker.io/ansible/awx_web:{{ awx_awxweb_version }}
-    name: awxweb
+    name: {{ awx_pod_name }}_awxweb
     workingDir: /var/lib/awx
     volumeMounts:
     - mountPath: /var/lib/awx/projects:z
@@ -158,7 +158,7 @@ spec:
     - name: MEMCACHED_PORT
       value: "11211"
     image: docker.io/ansible/awx_task:{{ awx_awxtask_version }}
-    name: awxtask
+    name: {{ awx_pod_name }}_awxtask
     workingDir: /var/lib/awx
     volumeMounts:
     - mountPath: /var/lib/awx/projects:z
@@ -186,4 +186,4 @@ spec:
     - name: RABBITMQ_DEFAULT_PASS
       value: {{ awx_rabbitmq_password }}
     image: docker.io/ansible/awx_rabbitmq:{{ awx_rabbitmq_version }}
-    name: rabbitmq
+    name: {{ awx_pod_name }}_rabbitmq
