@@ -44,7 +44,7 @@ spec:
     - name: POSTGRES_PASSWORD
       value: {{ awx_postgres_password }}
     image: {{ awx_postgres_image }}
-    name: postgres
+    name: {{ awx_pod_name }}_postgres
     volumeMounts:
     - mountPath: /var/lib/postgresql/data/pgdata:z
       name: db-volume
@@ -56,7 +56,7 @@ spec:
     - memcached
     env:
     image: {{ awx_memcached_image }}
-    name: memcached
+    name: {{ awx_pod_name }}_memcached
   #
   # awx-web container
   #
@@ -100,7 +100,7 @@ spec:
     - name: MEMCACHED_PORT
       value: "11211"
     image: {{ awx_awxweb_image }}
-    name: awxweb
+    name: {{ awx_pod_name }}_awxweb
     workingDir: /var/lib/awx
     volumeMounts:
     - mountPath: /var/lib/awx/projects:z
@@ -158,7 +158,7 @@ spec:
     - name: MEMCACHED_PORT
       value: "11211"
     image: {{ awx_awxtask_image }}
-    name: awxtask
+    name: {{ awx_pod_name }}_awxtask
     workingDir: /var/lib/awx
     volumeMounts:
     - mountPath: /var/lib/awx/projects:z
@@ -186,4 +186,4 @@ spec:
     - name: RABBITMQ_DEFAULT_PASS
       value: {{ awx_rabbitmq_password }}
     image: {{ awx_rabbitmq_image }}
-    name: rabbitmq
+    name: {{ awx_pod_name }}_rabbitmq
