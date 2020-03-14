@@ -4,9 +4,9 @@
 # container image settings
 #
 
-awx_awxweb_version: 9.2.0
-awx_awxtask_version: 9.2.0
-awx_postgres_version: 9.6
+awx_awxweb_version: 9.3.0
+awx_awxtask_version: 9.3.0
+awx_postgres_version: 10
 awx_rabbitmq_version: 3.7.21
 
 awx_awxweb_image: docker.io/ansible/awx_web:{{ awx_awxweb_version }}
