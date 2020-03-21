@@ -4,16 +4,19 @@
 # container image settings
 #
 
-awx_awxweb_version: 9.2.0
-awx_awxtask_version: 9.2.0
-awx_postgres_version: 9.6
+awx_awxweb_version: 9.3.0
+awx_awxtask_version: 9.3.0
+awx_postgres_version: 10
 awx_rabbitmq_version: 3.7.21
 
 awx_awxweb_image: docker.io/ansible/awx_web:{{ awx_awxweb_version }}
 awx_awxtask_image: docker.io/ansible/awx_task:{{ awx_awxtask_version }}
-awx_postgres_image: docker.io/library/postgres:{{ awx_postgres_version }}
+awx_postgres_image: docker.io/centos/postgresql-{{ awx_postgres_version }}-centos7
 awx_rabbitmq_image: docker.io/ansible/awx_rabbitmq:{{ awx_rabbitmq_version }}
 awx_memcached_image: docker.io/library/memcached:alpine
+
+# Update postgresql from a lower version
+awx_postgres_update: False
 
 #
 # awx host settings

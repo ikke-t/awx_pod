@@ -20,50 +20,50 @@
     file:
       path: "{{ awx_db_volume_host_path }}"
       state: directory
-      mode: "0700"
-      owner: root
+      mode: '0770'
+      owner: '26'
+      group: '26'
 
   - name: ensure awx exported volume directory exists
     file:
       path: "{{ awx_data_volume_host_path }}"
       state: directory
-      mode: "0700"
-      owner: 1000
+      mode: '0700'
+      owner: '1000'
 
   - name: ensure awxweb nginx volume directory exists
     file:
       path: "{{ awx_nginx_volume_host_path }}"
       state: directory
-      mode: "0700"
-      owner: 1000
+      mode: '0700'
+      owner: '1000'
 
   - name: ensure awx secret volume directory exists
     file:
       path: "{{ awx_secret_volume_host_path }}"
       state: directory
-      mode: "0700"
-      owner: 1000
+      mode: '0700'
+      owner: '1000'
 
   - name: copy awx SECRET_FILE
     copy:
       content: "{{ awx_secret_key }}"
       dest: "{{ awx_secret_volume_host_path }}/SECRET_FILE"
-      mode: "0600"
-      owner: 1000
+      mode: '0600'
+      owner: '1000'
 
   - name: overwrite containers ngnix.conf (to run on port 8052)
     copy:
       src: nginx.conf
       dest: "{{ awx_nginx_volume_host_path }}/nginx.conf"
-      mode: "0600"
-      owner: 1000
+      mode: '0600'
+      owner: '1000'
 
-  when: container_state == "running"
+  when: container_state == 'running'
 
 - name: import role podman_container_systemd to handle containers
   vars:
     container_name: "{{ awx_pod_name }}"
-    container_state: running
     container_pod_yaml: "{{ awx_pod_yaml_path }}"
     container_image_list: "{{ awx_container_image_list }}"
     container_firewall_ports:
@@ -75,16 +75,16 @@
   file:
     path: "{{ awx_pod_yaml_path }}"
     state: absent
-  when: container_state == "absent"
+  when: container_state == 'absent'
 
 - name: "remove awx secret directory: {{ awx_secret_volume_host_path }}"
   file:
     path: "{{ awx_secret_volume_host_path }}/"
     state: absent
-  when: container_state == "absent"
+  when: container_state == 'absent'
 
 - name: "remove nginx configuration directory: {{ awx_nginx_volume_host_path }}"
   file:
     path: "{{ awx_nginx_volume_host_path }}/"
     state: absent
-  when: container_state == "absent"
+  when: container_state == 'absent'

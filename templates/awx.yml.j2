@@ -30,23 +30,24 @@ spec:
   # postgres container
   #
   - command:
-    - docker-entrypoint.sh
-    - postgres
+    - run-postgresql
     env:
-    - name: PATH
-      value: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/postgresql/{{ awx_postgres_version }}/bin
-    - name: POSTGRES_USER
+    - name: POSTGRESQL_USER
       value: {{ awx_postgres_user }}
-    - name: POSTGRES_DB
+    - name: POSTGRESQL_DATABASE
       value: awx
     - name: PGDATA
-      value: /var/lib/postgresql/data/pgdata
-    - name: POSTGRES_PASSWORD
+      value: /var/lib/pgsql/data
+    - name: POSTGRESQL_PASSWORD
       value: {{ awx_postgres_password }}
+{% if awx_postgres_update %}
+    - name: POSTGRESQL_UPGRADE
+      value: copy
+{% endif %}
     image: {{ awx_postgres_image }}
     name: {{ awx_pod_name }}_postgres
     volumeMounts:
-    - mountPath: /var/lib/postgresql/data/pgdata:z
+    - mountPath: /var/lib/pgsql/data:z
       name: db-volume
   #
   # memcached container
