@@ -36,8 +36,25 @@ http {
         server 127.0.0.1:8051;
     }
 
+    {% if ssl_certificate is defined %}
     server {
         listen 8052 default_server;
+        server_name _;
+
+        # Redirect all HTTP links to the matching HTTPS page
+        return 301 https://$host:{{ awx_host_ssl_port }}$request_uri;
+    }
+    {%endif %}
+
+    server {
+        {% if ssl_certificate is defined %}
+        listen 8053 ssl;
+
+        ssl_certificate /etc/nginx/awxweb.pem;
+        ssl_certificate_key /etc/nginx/awxweb.pem;
+        {% else %}
+        listen 8052 default_server;
+        {% endif %}
 
         # If you have a domain name, this is where to add it
         server_name _;
@@ -92,6 +109,9 @@ http {
             uwsgi_read_timeout 120s;
             uwsgi_pass uwsgi;
             include /etc/nginx/uwsgi_params;
+            {%- if extra_nginx_include is defined %}
+            include {{ extra_nginx_include }};
+            {%- endif %}
             proxy_set_header X-Forwarded-Port 443;
             uwsgi_param HTTP_X_FORWARDED_PORT 443;
         }
