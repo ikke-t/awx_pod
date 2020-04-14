@@ -28,7 +28,7 @@ admin_password: password
 awx_pod_name: awx
 awx_pod_label: awx
 
-awx_podman_dir: /tmp
+awx_podman_dir: /tmp/awx
 
 awx_host_port: 80
 awx_host_ssl_port: 443
