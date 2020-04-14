@@ -33,7 +33,8 @@ awx_podman_dir: /tmp
 awx_host_port: 80
 awx_host_ssl_port: 443
 
-# Optional SSL stuff
+# Optional SSL stuff, the files are copied from the server you run ansible from.
+# (ansible copy src)
 # ssl_certificate: /etc/cockpit/ws-certs.d/0-self-signed.cert
 # ca_trust_file: /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem
 
