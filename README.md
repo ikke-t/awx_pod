@@ -18,6 +18,12 @@ Role Variables
 
 Set AWX credentials and storage paths is ```defaults/main.yml``` file.
 
+**SECURITY NOTE**: If you use AWX for anything else than personal development,
+do note that the admin credentials are readable in podman awx.yaml file. So
+after you change the admin password in AWX, **remove the initial setup password
+immediately** from the awx.yaml. Otherwise it will be readable by other host
+users, and will be re-applied at every restart of AWX.
+
 Dependencies
 ------------
 
