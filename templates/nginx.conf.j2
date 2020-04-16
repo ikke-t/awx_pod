@@ -36,7 +36,7 @@ http {
         server 127.0.0.1:8051;
     }
 
-    {% if ssl_certificate is defined %}
+    {% if awx_host_ssl_certificate is defined %}
     server {
         listen 8052 default_server;
         server_name _;
@@ -47,7 +47,7 @@ http {
     {%endif %}
 
     server {
-        {% if ssl_certificate is defined %}
+        {% if awx_host_ssl_certificate is defined %}
         listen 8053 ssl;
 
         ssl_certificate /etc/nginx/awxweb.pem;

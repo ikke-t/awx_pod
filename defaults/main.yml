@@ -21,9 +21,9 @@ awx_postgres_update: False
 # awx host settings
 #
 
-admin_user: admin
-admin_email: 'root@localhost'
-admin_password: password
+awx_admin_user: admin
+awx_admin_password: password
+awx_server_email: 'root@localhost'
 
 awx_pod_name: awx
 awx_pod_label: awx
@@ -35,29 +35,29 @@ awx_host_ssl_port: 443
 
 # Optional SSL stuff, the files are copied from the server you run ansible from.
 # (ansible copy src)
-# ssl_certificate: /etc/cockpit/ws-certs.d/0-self-signed.cert
-# ca_trust_file: /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem
+# awx_host_ssl_certificate: /etc/cockpit/ws-certs.d/0-self-signed.cert
+# awx_host_ssl_ca_trust_file: /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem
 
 #
 # anything below is pod internal info, never seen outside.
 #
-pg_hostname: localhost
-pg_port: 5432
-pg_database: awx
-pg_username: awx
-pg_password: awxpass
-
 awx_secret_key: iamverysecret
 
-memcached_hostname: localhost
-memcached_port: 11211
-memcached_mem_request: 1
-memcached_cpu_request: 500
+awx_pg_hostname: localhost
+awx_pg_port: 5432
+awx_pg_database: awx
+awx_pg_username: awx
+awx_pg_password: awxpass
+
+awx_memcached_hostname: localhost
+awx_memcached_port: 11211
+awx_memcached_mem_request: 1
+awx_memcached_cpu_request: 500
 
 # for settings file
-task_mem_request: 2
-task_cpu_request: 1500
-automation_analytics_url: "https://example.org"
-insights_url_base: "https://example.org"
-insights_agent_mime: "application/example"
-container_groups_image: "ansible/ansible-runner"
+awx_task_mem_request: 2
+awx_task_cpu_request: 1500
+awx_automation_analytics_url: "https://example.org"
+awx_insights_url_base: "https://example.org"
+awx_insights_agent_mime: "application/example"
+awx_container_groups_image: "ansible/ansible-runner"
