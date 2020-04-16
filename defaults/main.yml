@@ -4,8 +4,8 @@
 # container image settings
 #
 
-awx_awxweb_version: 10.0.0
-awx_awxtask_version: 10.0.0
+awx_awxweb_version: 11.0.0
+awx_awxtask_version: 11.0.0
 awx_postgres_version: 10
 
 awx_awxweb_image: docker.io/ansible/awx_web:{{ awx_awxweb_version }}
@@ -49,10 +49,12 @@ pg_password: awxpass
 
 awx_secret_key: iamverysecret
 
-memcached_hostname: localhost
-memcached_port: 11211
 memcached_mem_request: 1
 memcached_cpu_request: 500
+memcached_socket_path: /var/run/memcached
+memcached_socket_filename: memcached.sock
+
+kubernetes_redis_config_mount_path: /usr/local/etc/redis/redis.conf
 
 # for settings file
 task_mem_request: 2

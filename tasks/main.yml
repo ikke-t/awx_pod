@@ -63,6 +63,34 @@
       mode: '0777'
       owner: '999'
 
+  - name: ensure awx memcached-socket directory exists
+    file:
+      path: "{{ awx_podman_dir }}/memcached-socket"
+      state: directory
+      mode: '0777'
+      owner: '1000'
+
+  - name: ensure awx supervisor-socket directory exists
+    file:
+      path: "{{ awx_podman_dir }}/supervisor-socket"
+      state: directory
+      mode: '0700'
+      owner: '1000'
+
+  - name: ensure awx rsyslog-socket directory exists
+    file:
+      path: "{{ awx_podman_dir }}/rsyslog-socket"
+      state: directory
+      mode: '0700'
+      owner: '1000'
+
+  - name: ensure awx rsyslog directory exists
+    file:
+      path: "{{ awx_podman_dir }}/rsyslog-dir"
+      state: directory
+      mode: '0700'
+      owner: '1000'
+
   - name: copy awx SECRET_FILE
     copy:
       content: "{{ awx_secret_key }}"
