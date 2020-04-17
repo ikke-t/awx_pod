@@ -45,7 +45,7 @@ Example Playbook
         awx_admin_password: foobar
         awx_podman_dir: /tmp
         awx_host_port: 8052
-        awx_container_state: running
+        container_state: running
       import_role:
         name: awx_pod
 ```
