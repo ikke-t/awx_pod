@@ -41,8 +41,8 @@ Example Playbook
   tasks:
     - name: import awx_pod role to install it all
       vars:
-        admin_user: admin
-        admin_password: foobar
+        awx_admin_user: admin
+        awx_admin_password: foobar
         awx_podman_dir: /tmp
         awx_host_port: 8052
         container_state: running

@@ -21,10 +21,10 @@ spec:
     hostPath:
       path: {{ awx_podman_dir }}/redis-socket
       type: Directory
-{% if ca_trust_file is defined %}
+{% if awx_host_ssl_ca_trust_file is defined %}
   - name: ca_trust_file
     hostPath:
-      path: {{ ca_trust_file }}
+      path: {{ awx_host_ssl_ca_trust_file }}
       type: File
 {% endif %}
   - name: awx-secret
@@ -51,7 +51,7 @@ spec:
     hostPath:
       path: {{ awx_podman_dir }}/credentials.py
       type: File
-{% if ssl_certificate is defined %}
+{% if awx_host_ssl_certificate is defined %}
   - name: ssl_certificate
     hostPath:
       path: {{ awx_podman_dir }}/awxweb.pem
@@ -65,13 +65,13 @@ spec:
     - run-postgresql
     env:
     - name: POSTGRESQL_USER
-      value: {{ pg_username }}
+      value: {{ awx_pg_username }}
     - name: POSTGRESQL_DATABASE
-      value: {{ pg_database }}
+      value: {{ awx_pg_database }}
     - name: PGDATA
       value: /var/lib/pgsql/data
     - name: POSTGRESQL_PASSWORD
-      value: {{ pg_password }}
+      value: {{ awx_pg_password }}
 {% if awx_postgres_update %}
     - name: POSTGRESQL_UPGRADE
       value: copy
@@ -99,25 +99,25 @@ spec:
     - /usr/bin/launch_awx.sh
     env:
     - name: AWX_ADMIN_USER
-      value: {{ admin_user }}
+      value: {{ awx_admin_user }}
     - name: AWX_ADMIN_PASSWORD
-      value: {{ admin_password }}
+      value: {{ awx_admin_password }}
     - name: HOSTNAME
       value: {{ awx_pod_name }}
     - name: DATABASE_NAME
-      value: {{ pg_database }}
+      value: {{ awx_pg_database }}
     - name: DATABASE_USER
-      value: {{ pg_username }}
+      value: {{ awx_pg_username }}
     - name: DATABASE_PASSWORD
-      value: {{ pg_password }}
+      value: {{ awx_pg_password }}
     - name: DATABASE_PORT
-      value: {{ pg_port }}
+      value: {{ awx_pg_port }}
     - name: DATABASE_HOST
-      value: {{ pg_hostname }}
+      value: {{ awx_pg_hostname }}
     - name: MEMCACHED_HOST
-      value: {{ memcached_hostname }}
+      value: {{ awx_memcached_hostname }}
     - name: MEMCACHED_PORT
-      value: {{ memcached_port }}
+      value: {{ awx_memcached_port }}
     image: {{ awx_awxweb_image }}
     name: {{ awx_pod_name }}_awxweb
     workingDir: /var/lib/awx
@@ -126,7 +126,7 @@ spec:
       name: awx-data-volume
     - mountPath: /var/run/redis:z
       name: redis-volume
-{% if ca_trust_file is defined %}
+{% if awx_host_ssl_ca_trust_file is defined %}
     - mountPath: /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem:z
       name: ca_trust_file
       readOnly: true
@@ -146,7 +146,7 @@ spec:
     - mountPath: /etc/tower/conf.d/credentials.py:z
       name: credentials-py
       readOnly: true
-{% if ssl_certificate is defined %}
+{% if awx_host_ssl_certificate is defined %}
     - mountPath: /etc/nginx/awxweb.pem:z
       name: ssl_certificate
       readOnly: true
@@ -155,7 +155,7 @@ spec:
       - containerPort: 8052
         hostPort: {{ awx_host_port }}
         protocol: TCP
-{% if ssl_certificate is defined %}
+{% if awx_host_ssl_certificate is defined %}
       - containerPort: 8053
         hostPort: {{ awx_host_ssl_port }}
         protocol: TCP
@@ -169,25 +169,25 @@ spec:
     - /usr/bin/launch_awx_task.sh
     env:
     - name: AWX_ADMIN_USER
-      value: {{ admin_user }}
+      value: {{ awx_admin_user }}
     - name: AWX_ADMIN_PASSWORD
-      value: {{ admin_password }}
+      value: {{ awx_admin_password }}
     - name: HOSTNAME
       value: {{ awx_pod_name }}
     - name: DATABASE_NAME
-      value: {{ pg_database }}
+      value: {{ awx_pg_database }}
     - name: DATABASE_USER
-      value: {{ pg_username }}
+      value: {{ awx_pg_username }}
     - name: DATABASE_PASSWORD
-      value: {{ pg_password }}
+      value: {{ awx_pg_password }}
     - name: DATABASE_PORT
-      value: {{ pg_port }}
+      value: {{ awx_pg_port }}
     - name: DATABASE_HOST
-      value: {{ pg_hostname }}
+      value: {{ awx_pg_hostname }}
     - name: MEMCACHED_HOST
-      value: {{ memcached_hostname }}
+      value: {{ awx_memcached_hostname }}
     - name: MEMCACHED_PORT
-      value: {{ memcached_port }}
+      value: {{ awx_memcached_port }}
     image: {{ awx_awxtask_image }}
     name: {{ awx_pod_name }}_awxtask
     workingDir: /var/lib/awx
@@ -198,7 +198,7 @@ spec:
       name: awx-data-volume
     - mountPath: /var/run/redis:z
       name: redis-volume
-{% if ca_trust_file is defined %}
+{% if awx_host_ssl_ca_trust_file is defined %}
     - mountPath: /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem:z
       name: ca_trust_file
       readOnly: true
@@ -218,7 +218,7 @@ spec:
     - mountPath: /etc/tower/conf.d/credentials.py:z
       name: credentials-py
       readOnly: true
-{% if ssl_certificate is defined %}
+{% if awx_host_ssl_certificate is defined %}
     - mountPath: /etc/nginx/awxweb.pem:z
       name: ssl_certificate
       readOnly: true
