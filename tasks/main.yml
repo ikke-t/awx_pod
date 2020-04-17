@@ -113,7 +113,7 @@
       mode: '0600'
       owner: '1000'
 
-  when: awx_container_state == 'running'
+  when: container_state == 'running'
 
 - name: import role podman_container_systemd to handle containers
   vars:
@@ -128,10 +128,10 @@
   file:
     path: "{{ awx_pod_yaml_path }}"
     state: absent
-  when: awx_container_state == 'absent'
+  when: container_state == 'absent'
 
 - name: "remove awx config file directory: {{ awx_podman_dir }}"
   file:
     path: "{{ awx_podman_dir }}/"
     state: absent
-  when: awx_container_state == 'absent'
+  when: container_state == 'absent'

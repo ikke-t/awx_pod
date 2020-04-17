@@ -8,7 +8,7 @@
         awx_admin_user: admin
         awx_admin_password: foobar
         awx_podman_dir: /tmp
-        #awx_container_state: absent or running
+        #container_state: absent or running
       import_role:
         name: awx_pod
 
