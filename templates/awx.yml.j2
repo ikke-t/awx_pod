@@ -9,6 +9,22 @@ spec:
   # define exported volumes for permanent data
   #
   volumes:
+  - name: supervisor-socket
+    hostPath:
+      path: {{ awx_podman_dir }}/supervisor-socket
+      type: Directory
+  - name: rsyslog-socket
+    hostPath:
+      path: {{ awx_podman_dir }}/rsyslog-socket
+      type: Directory
+  - name: rsyslog-dir
+    hostPath:
+      path: {{ awx_podman_dir }}/rsyslog-dir
+      type: Directory
+  - name: memcached-socket
+    hostPath:
+      path: {{ awx_podman_dir }}/memcached-socket
+      type: Directory
   - name: awx-data-volume
     hostPath:
       path: {{ awx_podman_dir }}/data
@@ -85,11 +101,17 @@ spec:
   # memcached container
   #
   - command:
-    - docker-entrypoint.sh
     - memcached
+    - -s
+    - {{ memcached_socket_path }}/{{ memcached_socket_filename }}
+    - -a
+    - 0666
     env:
     image: {{ awx_memcached_image }}
     name: {{ awx_pod_name }}_memcached
+    volumeMounts:
+    - name: memcached-socket
+      mountPath: "{{ memcached_socket_path }}"
   #
   # awx-web container
   #
@@ -114,14 +136,16 @@ spec:
       value: {{ awx_pg_port }}
     - name: DATABASE_HOST
       value: {{ awx_pg_hostname }}
-    - name: MEMCACHED_HOST
-      value: {{ awx_memcached_hostname }}
-    - name: MEMCACHED_PORT
-      value: {{ awx_memcached_port }}
     image: {{ awx_awxweb_image }}
     name: {{ awx_pod_name }}_awxweb
     workingDir: /var/lib/awx
     volumeMounts:
+    - name: supervisor-socket
+      mountPath: "/var/run/supervisor"
+    - name: rsyslog-socket
+      mountPath: "/var/run/awx-rsyslog"
+    - name: rsyslog-dir
+      mountPath: "/var/lib/awx/rsyslog"
     - mountPath: /var/lib/awx/projects:z
       name: awx-data-volume
     - mountPath: /var/run/redis:z
@@ -146,6 +170,8 @@ spec:
     - mountPath: /etc/tower/conf.d/credentials.py:z
       name: credentials-py
       readOnly: true
+    - name: memcached-socket
+      mountPath: "{{ awx_memcached_socket_path }}"
 {% if awx_host_ssl_certificate is defined %}
     - mountPath: /etc/nginx/awxweb.pem:z
       name: ssl_certificate
@@ -184,16 +210,18 @@ spec:
       value: {{ awx_pg_port }}
     - name: DATABASE_HOST
       value: {{ awx_pg_hostname }}
-    - name: MEMCACHED_HOST
-      value: {{ awx_memcached_hostname }}
-    - name: MEMCACHED_PORT
-      value: {{ awx_memcached_port }}
     image: {{ awx_awxtask_image }}
     name: {{ awx_pod_name }}_awxtask
     workingDir: /var/lib/awx
     securityContext:
       privileged: true
     volumeMounts:
+    - name: supervisor-socket
+      mountPath: "/var/run/supervisor"
+    - name: rsyslog-socket
+      mountPath: "/var/run/awx-rsyslog"
+    - name: rsyslog-dir
+      mountPath: "/var/lib/awx/rsyslog"
     - mountPath: /var/lib/awx/projects:z
       name: awx-data-volume
     - mountPath: /var/run/redis:z
@@ -218,6 +246,8 @@ spec:
     - mountPath: /etc/tower/conf.d/credentials.py:z
       name: credentials-py
       readOnly: true
+    - name: memcached-socket
+      mountPath: "{{ memcached_socket_path }}"
 {% if awx_host_ssl_certificate is defined %}
     - mountPath: /etc/nginx/awxweb.pem:z
       name: ssl_certificate
@@ -228,7 +258,7 @@ spec:
   #
   - command:
     - redis-server
-    - /usr/local/etc/redis/redis.conf
+    - {{ kubernetes_redis_config_mount_path }}
     workingDir: /data
     securityContext:
       allowPrivilegeEscalation: true
@@ -238,7 +268,7 @@ spec:
     volumeMounts:
     - mountPath: /var/run/redis:z
       name: redis-volume
-    - mountPath: /usr/local/etc/redis/redis.conf:z
+    - mountPath: {{ kubernetes_redis_config_mount_path }}:z
       name: redis-config
     image: {{ awx_redis_image }}
     name: {{ awx_pod_name }}_redis

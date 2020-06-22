@@ -72,10 +72,7 @@ LOGGING['handlers']['management_playbooks'] = {'class': 'logging.NullHandler'}
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-        'LOCATION': '{}:{}'.format("{{ awx_memcached_hostname }}", "{{ awx_memcached_port }}")
-    },
-    'ephemeral': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unix:/var/run/memcached/memcached.sock'
     },
 }
 
