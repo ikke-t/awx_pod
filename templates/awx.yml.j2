@@ -103,7 +103,7 @@ spec:
   - command:
     - memcached
     - -s
-    - {{ memcached_socket_path }}/{{ memcached_socket_filename }}
+    - {{ awx_memcached_socket_path }}/{{ awx_memcached_socket_filename }}
     - -a
     - 0666
     env:
@@ -111,7 +111,7 @@ spec:
     name: {{ awx_pod_name }}_memcached
     volumeMounts:
     - name: memcached-socket
-      mountPath: "{{ memcached_socket_path }}"
+      mountPath: "{{ awx_memcached_socket_path }}"
   #
   # awx-web container
   #
@@ -247,7 +247,7 @@ spec:
       name: credentials-py
       readOnly: true
     - name: memcached-socket
-      mountPath: "{{ memcached_socket_path }}"
+      mountPath: "{{ awx_memcached_socket_path }}"
 {% if awx_host_ssl_certificate is defined %}
     - mountPath: /etc/nginx/awxweb.pem:z
       name: ssl_certificate
@@ -258,7 +258,7 @@ spec:
   #
   - command:
     - redis-server
-    - {{ kubernetes_redis_config_mount_path }}
+    - {{ awx_kubernetes_redis_config_mount_path }}
     workingDir: /data
     securityContext:
       allowPrivilegeEscalation: true
@@ -268,7 +268,7 @@ spec:
     volumeMounts:
     - mountPath: /var/run/redis:z
       name: redis-volume
-    - mountPath: {{ kubernetes_redis_config_mount_path }}:z
+    - mountPath: {{ awx_kubernetes_redis_config_mount_path }}:z
       name: redis-config
     image: {{ awx_redis_image }}
     name: {{ awx_pod_name }}_redis
