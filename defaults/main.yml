@@ -4,12 +4,13 @@
 # container image settings
 #
 
-awx_awxweb_version: 10.0.0
-awx_awxtask_version: 10.0.0
+awx_awx_version: 13.0.0
+awx_awxweb_version: "{{ awx_awx_version }}"
+awx_awxtask_version: "{{ awx_awx_version }}"
 awx_postgres_version: 10
 
-awx_awxweb_image: docker.io/ansible/awx_web:{{ awx_awxweb_version }}
-awx_awxtask_image: docker.io/ansible/awx_task:{{ awx_awxtask_version }}
+awx_awxweb_image: "{{ awx_awx_image | default('docker.io/ansible/awx:{}'.format(awx_awxweb_version)) }}"
+awx_awxtask_image: "{{ awx_awx_image | default('docker.io/ansible/awx:{}'.format(awx_awxtask_version)) }}"
 awx_postgres_image: docker.io/centos/postgresql-{{ awx_postgres_version }}-centos7
 awx_memcached_image: docker.io/library/memcached:alpine
 awx_redis_image: docker.io/library/redis:latest
@@ -49,10 +50,13 @@ awx_pg_database: awx
 awx_pg_username: awx
 awx_pg_password: awxpass
 
-awx_memcached_hostname: localhost
-awx_memcached_port: 11211
+
 awx_memcached_mem_request: 1
 awx_memcached_cpu_request: 500
+awx_memcached_socket_path: /var/run/memcached
+awx_memcached_socket_filename: memcached.sock
+
+awx_kubernetes_redis_config_mount_path: /usr/local/etc/redis/redis.conf
 
 # for settings file
 awx_task_mem_request: 2
