@@ -9,7 +9,6 @@ awx_pod_label: "{{ awx_pod_name }}"
 
 awx_container_image_list:
   - "{{ awx_postgres_image }}"
-  - "{{ awx_memcached_image }}"
   - "{{ awx_redis_image }}"
   - "{{ awx_awxweb_image }}"
   - "{{ awx_awxtask_image }}"

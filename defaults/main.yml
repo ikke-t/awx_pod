@@ -12,7 +12,6 @@ awx_postgres_version: 10
 awx_awxweb_image: "{{ awx_awx_image | default('docker.io/ansible/awx:{}'.format(awx_awxweb_version)) }}"
 awx_awxtask_image: "{{ awx_awx_image | default('docker.io/ansible/awx:{}'.format(awx_awxtask_version)) }}"
 awx_postgres_image: docker.io/centos/postgresql-{{ awx_postgres_version }}-centos7
-awx_memcached_image: docker.io/library/memcached:alpine
 awx_redis_image: docker.io/library/redis:latest
 
 # Update postgresql from a lower version
@@ -50,11 +49,6 @@ awx_pg_database: awx
 awx_pg_username: awx
 awx_pg_password: awxpass
 
-
-awx_memcached_mem_request: 1
-awx_memcached_cpu_request: 500
-awx_memcached_socket_path: /var/run/memcached
-awx_memcached_socket_filename: memcached.sock
 
 awx_kubernetes_redis_config_mount_path: /usr/local/etc/redis/redis.conf
 
