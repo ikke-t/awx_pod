@@ -63,13 +63,6 @@
       mode: '0777'
       owner: '999'
 
-  - name: ensure awx memcached-socket directory exists
-    file:
-      path: "{{ awx_podman_dir }}/memcached-socket"
-      state: directory
-      mode: '0777'
-      owner: '1000'
-
   - name: ensure awx supervisor-socket directory exists
     file:
       path: "{{ awx_podman_dir }}/supervisor-socket"

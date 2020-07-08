@@ -21,10 +21,6 @@ spec:
     hostPath:
       path: {{ awx_podman_dir }}/rsyslog-dir
       type: Directory
-  - name: memcached-socket
-    hostPath:
-      path: {{ awx_podman_dir }}/memcached-socket
-      type: Directory
   - name: awx-data-volume
     hostPath:
       path: {{ awx_podman_dir }}/data
@@ -98,21 +94,6 @@ spec:
     - mountPath: /var/lib/pgsql/data:z
       name: db-volume
   #
-  # memcached container
-  #
-  - command:
-    - memcached
-    - -s
-    - {{ awx_memcached_socket_path }}/{{ awx_memcached_socket_filename }}
-    - -a
-    - 0666
-    env:
-    image: {{ awx_memcached_image }}
-    name: {{ awx_pod_name }}_memcached
-    volumeMounts:
-    - name: memcached-socket
-      mountPath: "{{ awx_memcached_socket_path }}"
-  #
   # awx-web container
   #
   - command:
@@ -170,8 +151,6 @@ spec:
     - mountPath: /etc/tower/conf.d/credentials.py:z
       name: credentials-py
       readOnly: true
-    - name: memcached-socket
-      mountPath: "{{ awx_memcached_socket_path }}"
 {% if awx_host_ssl_certificate is defined %}
     - mountPath: /etc/nginx/awxweb.pem:z
       name: ssl_certificate
@@ -246,8 +225,6 @@ spec:
     - mountPath: /etc/tower/conf.d/credentials.py:z
       name: credentials-py
       readOnly: true
-    - name: memcached-socket
-      mountPath: "{{ awx_memcached_socket_path }}"
 {% if awx_host_ssl_certificate is defined %}
     - mountPath: /etc/nginx/awxweb.pem:z
       name: ssl_certificate
