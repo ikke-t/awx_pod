@@ -54,8 +54,8 @@ http {
           {% if awx_host_ssl_certificate_key is defined %}
         ssl_certificate_key /etc/nginx/awxweb_key.pem;
           {% else %}
-        ssl_certificate_key /etc/nginx/awxweb.pem
-          {% endif %};
+        ssl_certificate_key /etc/nginx/awxweb.pem;
+          {% endif %}
 	{% else %}
         listen 8052 default_server;
         {% endif %}
