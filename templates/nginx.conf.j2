@@ -47,7 +47,7 @@ http {
     {%endif %}
 
     server {
-        {% if (awx_host_ssl_certificate is defined) and (awx_host_ssl_certificate_key is not defined) %}
+        {% if awx_host_ssl_certificate is defined %}
         listen 8053 ssl;
 
         ssl_certificate /etc/nginx/awxweb.pem;
