@@ -69,6 +69,12 @@ spec:
       path: {{ awx_podman_dir }}/awxweb.pem
       type: File
 {% endif %}
+{% if awx_host_ssl_certificate_key is defined %}
+  - name: ssl_certificate_key
+    hostPath:
+      path: {{ awx_podman_dir }}/awxweb_key.pem
+      type: File
+{% endif %}
   containers:
   #
   # postgres container
@@ -156,6 +162,11 @@ spec:
       name: ssl_certificate
       readOnly: true
 {% endif %}
+{% if awx_host_ssl_certificate_key is defined %}
+    - mountPath: /etc/nginx/awxweb_key.pem:z
+      name: ssl_certificate_key
+      readOnly: true
+{% endif %}
     ports:
       - containerPort: 8052
         hostPort: {{ awx_host_port }}
@@ -228,6 +239,11 @@ spec:
 {% if awx_host_ssl_certificate is defined %}
     - mountPath: /etc/nginx/awxweb.pem:z
       name: ssl_certificate
+      readOnly: true
+{% endif %}
+{% if awx_host_ssl_certificate_key is defined %}
+    - mountPath: /etc/nginx/awxweb_key.pem:z
+      name: ssl_certificate_key
       readOnly: true
 {% endif %}
   #

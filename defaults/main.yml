@@ -36,6 +36,7 @@ awx_host_ssl_port: 443
 # Optional SSL stuff, the files are copied from the server you run ansible from.
 # (ansible copy src)
 # awx_host_ssl_certificate: /etc/cockpit/ws-certs.d/0-self-signed.cert
+# awx_host_ssl_certificate_key: /etc/pki/tls/private/keyfile.pem
 # awx_host_ssl_ca_trust_file: /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem
 
 #

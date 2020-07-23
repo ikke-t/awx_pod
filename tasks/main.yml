@@ -106,6 +106,14 @@
       owner: '1000'
     when: awx_host_ssl_certificate is defined
 
+  - name: copy ssl key certificate
+    copy:
+      src: "{{ awx_host_ssl_certificate_key }}"
+      dest: "{{ awx_podman_dir }}/awxweb_key.pem"
+      mode: '0600'
+      owner: '1000'
+    when: awx_host_ssl_certificate_key is defined
+
   - name: template ngnix.conf
     template:
       src: nginx.conf.j2
