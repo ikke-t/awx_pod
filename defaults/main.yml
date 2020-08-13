@@ -24,6 +24,8 @@ awx_postgres_update: False
 awx_admin_user: admin
 awx_admin_password: password
 awx_server_email: 'root@localhost'
+# awx_hostname is set by default to fqdn, you can uncomment it here and change the hostname of the app if you have an alias or similar for awx
+# awx_hostname: otherhostnamethanfqdn.tld
 
 awx_pod_name: awx
 awx_pod_label: awx
