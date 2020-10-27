@@ -25,10 +25,12 @@ spec:
     hostPath:
       path: {{ awx_podman_dir }}/data
       type: Directory
+{% if awx_pg_hostname == "localhost" %}
   - name: db-volume
     hostPath:
       path: {{ awx_podman_dir }}/db
       type: Directory
+{% endif %}
   - name: redis-volume
     hostPath:
       path: {{ awx_podman_dir }}/redis-socket
@@ -76,6 +78,7 @@ spec:
       type: File
 {% endif %}
   containers:
+{% if awx_pg_hostname == "localhost" %}
   #
   # postgres container
   #
@@ -99,6 +102,7 @@ spec:
     volumeMounts:
     - mountPath: /var/lib/pgsql/data:z
       name: db-volume
+{% endif %}
   #
   # awx-web container
   #

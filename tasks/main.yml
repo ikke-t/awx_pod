@@ -42,6 +42,7 @@
       owner: '1000'
 
   - name: ensure postgres directory exists
+    when: awx_pg_hostname == "localhost"
     file:
       path: "{{ awx_podman_dir }}/db"
       state: directory

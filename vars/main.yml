@@ -7,8 +7,14 @@ awx_pod_yaml_path: "{{ awx_pod_yaml_dir }}/{{ awx_pod_yaml_file }}"
 
 awx_pod_label: "{{ awx_pod_name }}"
 
-awx_container_image_list:
+awx_container_image_list_external_postgresql:
+  - "{{ awx_redis_image }}"
+  - "{{ awx_awxweb_image }}"
+  - "{{ awx_awxtask_image }}"
+awx_container_image_list_internal_postgresql:
   - "{{ awx_postgres_image }}"
   - "{{ awx_redis_image }}"
   - "{{ awx_awxweb_image }}"
   - "{{ awx_awxtask_image }}"
+
+awx_container_image_list: "{{ awx_container_image_list_external_postgresql|list if awx_pg_hostname != 'localhost' else awx_container_image_list_internal_postgresql|list }}"
