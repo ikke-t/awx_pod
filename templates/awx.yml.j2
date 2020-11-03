@@ -132,11 +132,11 @@ spec:
     workingDir: /var/lib/awx
     volumeMounts:
     - name: supervisor-socket
-      mountPath: "/var/run/supervisor"
+      mountPath: /var/run/supervisor:z
     - name: rsyslog-socket
-      mountPath: "/var/run/awx-rsyslog"
+      mountPath: /var/run/awx-rsyslog:z
     - name: rsyslog-dir
-      mountPath: "/var/lib/awx/rsyslog"
+      mountPath: /var/lib/awx/rsyslog:z
     - mountPath: /var/lib/awx/projects:z
       name: awx-data-volume
     - mountPath: /var/run/redis:z
@@ -211,11 +211,11 @@ spec:
       privileged: true
     volumeMounts:
     - name: supervisor-socket
-      mountPath: "/var/run/supervisor"
+      mountPath: /var/run/supervisor:z
     - name: rsyslog-socket
-      mountPath: "/var/run/awx-rsyslog"
+      mountPath: /var/run/awx-rsyslog:z
     - name: rsyslog-dir
-      mountPath: "/var/lib/awx/rsyslog"
+      mountPath: /var/lib/awx/rsyslog:z
     - mountPath: /var/lib/awx/projects:z
       name: awx-data-volume
     - mountPath: /var/run/redis:z
