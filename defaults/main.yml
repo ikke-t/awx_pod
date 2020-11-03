@@ -4,7 +4,7 @@
 # container image settings
 #
 
-awx_awx_version: 13.0.0
+awx_awx_version: 15.0.1
 awx_awxweb_version: "{{ awx_awx_version }}"
 awx_awxtask_version: "{{ awx_awx_version }}"
 awx_postgres_version: 10
