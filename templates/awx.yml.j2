@@ -109,7 +109,7 @@ spec:
   - command:
     - /bin/sh
     - -c
-    - /usr/bin/launch_awx.sh
+    - "/bin/chown -R nginx:root /var/lib/nginx && /usr/bin/launch_awx.sh"
     env:
     - name: AWX_ADMIN_USER
       value: {{ awx_admin_user }}
